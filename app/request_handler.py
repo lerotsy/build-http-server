@@ -8,6 +8,7 @@ HTTP_POST = "POST"
 HTTP_VERBS = (HTTP_GET, HTTP_POST)
 
 VALID_PATHS = (
+    '/valid-url'
     '/'
 )
 
@@ -18,10 +19,10 @@ class HttpRequestHandler:
         self.response = None
 
     def get_url(self) -> Union[str, None]:
-        lines = self.request_data.split(b'\n')
+        lines = self.request_data.decode('utf-8').split('\n')
         first_line = lines[0].strip()  # first line should contain the verb and URL
 
-        parts = first_line.split(b' ')
+        parts = first_line.split(' ')
         if len(parts) >= 2 and parts[0] in HTTP_VERBS:
             url = parts[1]
             return url if url in VALID_PATHS else None
