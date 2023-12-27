@@ -18,10 +18,10 @@ class HttpRequestHandler:
         self.response = None
 
     def get_url(self) -> Union[str, None]:
-        lines = self.request_data.split('\n')
+        lines = self.request_data.split(b'\n')
         first_line = lines[0].strip()  # first line should contain the verb and URL
 
-        parts = first_line.split(' ')
+        parts = first_line.split(b' ')
         if len(parts) >= 2 and parts[0] in HTTP_VERBS:
             url = parts[1]
             return url if url in VALID_PATHS else None
