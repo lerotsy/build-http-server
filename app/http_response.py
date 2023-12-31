@@ -9,6 +9,7 @@ class HttpResponse:
     status_code: int = 200
     content_type: str = None
     content: str = None
+    user_agent: str = None
 
     def response_description(self) -> str:
         descriptions = {
@@ -16,15 +17,6 @@ class HttpResponse:
             404: 'NOT FOUND',
         }
         return descriptions.get(self.status_code, "OTHER")
-
-    def to_string(self) -> str:
-        return (
-            f"HTTP/1.1 {self.status_code} {self.response_description()}{EOL}"
-            f"Content-Type: {self.content_type}{EOL}"
-            f"Content-Length: {len(self.content)}{EOL}"
-            f"{self.content}"
-            f"{EOR}"
-        )
     
     def to_string(self) -> str:
         response_parts = [f"HTTP/1.1 {self.status_code} {self.response_description()}{EOL}"]
@@ -34,6 +26,7 @@ class HttpResponse:
 
         content_length = len(self.content) if self.content else 0
         response_parts.append(f"Content-Length: {content_length}{EOL}")
+        response_parts.append(f"{EOL}")
 
         if self.content:
             response_parts.append(self.content)
