@@ -1,4 +1,6 @@
 from typing import Union
+from .http_response import HttpResponse
+import re
 
 EOL = "\r\n"  # End of line
 EOR = "\r\n"  # End of Response
@@ -8,8 +10,7 @@ HTTP_POST = "POST"
 HTTP_VERBS = (HTTP_GET, HTTP_POST)
 
 VALID_PATHS = (
-    '/valid-url'
-    '/'
+    '/index'
 )
 
 
@@ -25,18 +26,26 @@ class HttpRequestHandler:
         parts = first_line.split(' ')
         if len(parts) >= 2 and parts[0] in HTTP_VERBS:
             url = parts[1]
-            return url if url in VALID_PATHS else None
+            return url if is_valid_path(url) else None
         else:
             return None
 
 
     def process_request(self) -> str:
         url = self.get_url()
-        response = self.build_response(url)
-        return response
-
-    def build_response(self, url: Union[str, None]) -> str:
         if url is None:
-            return f"HTTP/1.1 404 Not Found{EOL}{EOR}"
+            response = HttpResponse(status_code=404)
         else:
-            return f"HTTP/1.1 200 OK{EOL}{EOR}"
+            url_parts = url.split('/echo/')
+            content = url_parts[1] if len(url_parts) > 1 else None
+            response = HttpResponse(content_type='text/plain', content=content)
+        return response.to_string()
+
+def is_valid_path(url: str):
+    if url in VALID_PATHS:
+        return True
+    
+    if re.match(r'/echo/[^/]+$', url):
+        return True
+    
+    return False
