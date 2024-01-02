@@ -15,3 +15,17 @@ This is my implementation of a basic HTTP server in Python, created as part of a
 - **Request Body Parsing**: Enhance the server's ability to parse and process the body of incoming requests, especially for different content types (like application/json)
 - **MIME Type Handling**: Automatically determine and set the correct Content-Type header in responses based on the MIME type of the file or data being served
 
+## Launching the project
+
+To get the HTTP server up and running, as well as to test its functionality, follow these steps:
+
+### Launching the server
+- Open a terminal window and navigate to the project's root directory.
+- Run the server script by executing:
+`./your_server.sh`
+
+### Launching the client
+- In a separate terminal window, navigate to the client/ folder within the project repository. This directory contains a Python script designed to perform tests based on the different steps outlined in the CodeCrafters coding challenge.
+- run the script 
+`python http_client.py`
+
