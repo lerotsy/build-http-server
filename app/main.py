@@ -1,7 +1,7 @@
-# Uncomment this to pass the first stage
 import socket
 import threading
 from .request_handler import HttpRequestHandler
+
 
 def handle_client_connection(client_socket):
     try:
@@ -12,6 +12,7 @@ def handle_client_connection(client_socket):
         print("Error handling request:", str(e))
     finally:
         client_socket.close()
+
 
 def main():
     print("Server is starting...")

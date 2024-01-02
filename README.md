@@ -1,38 +1,17 @@
-[![progress-banner](https://backend.codecrafters.io/progress/http-server/55679fd2-5b2c-45ea-9081-0a2bfad72f40)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
-
+# HTTP Server challenge from CodeCrafters
 This is a starting point for Python solutions to the
 ["Build Your Own HTTP server" Challenge](https://app.codecrafters.io/courses/http-server/overview).
 
-[HTTP](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol) is the
-protocol that powers the web. In this challenge, you'll build a HTTP/1.1 server
-that is capable of serving multiple clients.
+This is my implementation of a basic HTTP server in Python, created as part of a coding challenge by CodeCrafters. The project aims to demonstrate a fundamental understanding of HTTP protocol and server-side programming in Python. While it is not a comprehensive, full-fledged HTTP server, this project successfully satisfies the specific requirements of the CodeCrafters challenge.
 
-Along the way you'll learn about TCP servers,
-[HTTP request syntax](https://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html),
-and more.
+## Features 
+- **Handling HTTP Requests**: The server is programmed to respond with a 200 OK status for valid HTTP requests and a 404 Not Found status for invalid ones
+- **Header Parsing**: 
+- **Handling concurrent client connections**: supports multiple clients sending requests simultaneously
+- **File Transfer Operations**: (Not yet implemented) should support `GET` a file and `POST` a file
 
-**Note**: If you're viewing this repo on GitHub, head over to
-[codecrafters.io](https://codecrafters.io) to try the challenge.
 
-# Passing the first stage
+## Potential improvements
+- **Request Body Parsing**: Enhance the server's ability to parse and process the body of incoming requests, especially for different content types (like application/json)
+- **MIME Type Handling**: Automatically determine and set the correct Content-Type header in responses based on the MIME type of the file or data being served
 
-The entry point for your HTTP server implementation is in `app/main.py`. Study
-and uncomment the relevant code, and push your changes to pass the first stage:
-
-```sh
-git add .
-git commit -m "pass 1st stage" # any msg
-git push origin master
-```
-
-Time to move on to the next stage!
-
-# Stage 2 & beyond
-
-Note: This section is for stages 2 and beyond.
-
-1. Ensure you have `python (3.11)` installed locally
-1. Run `./your_server.sh` to run your program, which is implemented in
-   `app/main.py`.
-1. Commit your changes and run `git push origin master` to submit your solution
-   to CodeCrafters. Test output will be streamed to your terminal.
