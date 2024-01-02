@@ -17,9 +17,12 @@ class HttpResponse:
             404: 'NOT FOUND',
         }
         return descriptions.get(self.status_code, "OTHER")
-    
+
     def to_string(self) -> str:
-        response_parts = [f"HTTP/1.1 {self.status_code} {self.response_description()}{EOL}"]
+        response_parts = [
+            (f"HTTP/1.1 {self.status_code} {self.response_description()}"
+             f"{EOL}")
+        ]
 
         if self.content_type:
             response_parts.append(f"Content-Type: {self.content_type}{EOL}")

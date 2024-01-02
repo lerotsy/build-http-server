@@ -1,4 +1,4 @@
-from typing import Union, Optional
+from typing import Optional
 from .http_response import HttpResponse
 import re
 
@@ -10,7 +10,8 @@ HTTP_POST = "POST"
 HTTP_VERBS = (HTTP_GET, HTTP_POST)
 
 VALID_PATHS = (
-    '/index'
+    '/',
+    '/user-agent'
 )
 
 
@@ -18,22 +19,22 @@ class HttpRequestHandler:
     def __init__(self, request_data):
         self.request_data = request_data
         self.response = None
-    
+
     def parse_request(self) -> (str, str):
         url = self.get_url()
         user_agent = self.get_user_agent()
         return url, user_agent
-    
+
     def get_user_agent(self) -> Optional[str]:
         for line in self.request_data.decode('utf-8').split('\n'):
             if line.startswith('User-Agent:'):
                 return line[len('User-Agent:'):].strip()
         return None
 
-
-    def get_url(self) -> Union[str, None]:
+    def get_url(self) -> Optional[str]:
         lines = self.request_data.decode('utf-8').split('\n')
-        first_line = lines[0].strip()  # first line should contain the verb and URL
+        # first line should contain the verb and URL
+        first_line = lines[0].strip()
 
         parts = first_line.split(' ')
         if len(parts) >= 2 and parts[0] in HTTP_VERBS:
@@ -41,7 +42,6 @@ class HttpRequestHandler:
             return url if is_valid_path(url) else None
         else:
             return None
-
 
     def process_request(self) -> str:
         url, user_agent = self.parse_request()
@@ -54,15 +54,16 @@ class HttpRequestHandler:
                 content = url_parts[1] if len(url_parts) > 1 else None
             else:
                 content = user_agent
-                
-            self.response = HttpResponse(content_type='text/plain', content=content)
+
+            self.response = HttpResponse(content_type='text/plain',
+                                         content=content)
         return self.response.to_string()
 
-def is_valid_path(url: str):
-    if url in VALID_PATHS:
+
+def is_valid_path(url: str) -> bool:
+    # A URL is considered valid if it is one of the predefined
+    # paths in VALID_PATHS, or if it matches the pattern /echo/<string>.
+    if url in VALID_PATHS or re.match(r'/echo/[^/]+$', url):
         return True
-    
-    if re.match(r'/echo/[^/]+$', url):
-        return True
-    
+
     return False
